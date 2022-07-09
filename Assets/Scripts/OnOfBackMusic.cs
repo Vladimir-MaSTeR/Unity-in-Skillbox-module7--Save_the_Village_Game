@@ -23,16 +23,16 @@ public class OnOfBackMusic : MonoBehaviour
 
     public void StartAndPausefonMusic()
     {
-        AudioSource audioSource = gameObject.GetComponent<AudioSource>();
+        //AudioSource audioSource = gameObject.GetComponent<AudioSource>();
 
-        if (audioSource.isPlaying)
+        if (audio.isPlaying)
         {
-            audioSource.Pause();
+            audio.Pause();
             image.sprite = spriteNoneMusic;
         }
         else
         {
-            audioSource.Play();
+            audio.Play();
             image.sprite = spritePlayMusic;
         }
     }
