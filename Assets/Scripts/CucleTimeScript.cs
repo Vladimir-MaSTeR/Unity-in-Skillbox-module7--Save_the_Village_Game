@@ -40,7 +40,6 @@ public class CucleTimeScript : MonoBehaviour
                 plusInfoPanel.SetActive(false);
             }
 
-
             plusInfoCountPanelTimerOf -= Time.deltaTime;
             curentTime -= Time.deltaTime;
             UpdateTimerText(curentTime);

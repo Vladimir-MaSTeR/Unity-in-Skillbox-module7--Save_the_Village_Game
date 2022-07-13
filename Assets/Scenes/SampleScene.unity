@@ -1646,7 +1646,7 @@ GameObject:
   - component: {fileID: 246464074}
   - component: {fileID: 246464073}
   m_Layer: 5
-  m_Name: TimeFoodConsumptionText
+  m_Name: countWariorsInRaidCuclePanelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1704,7 +1704,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 41
+  m_Text: 0
 --- !u!222 &246464074
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3428,7 +3428,6 @@ GameObject:
   - component: {fileID: 576971330}
   - component: {fileID: 576971332}
   - component: {fileID: 576971331}
-  - component: {fileID: 576971333}
   m_Layer: 5
   m_Name: CycleFoodConsumptionPanel
   m_TagString: Untagged
@@ -3498,25 +3497,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576971329}
   m_CullTransparentMesh: 1
---- !u!114 &576971333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576971329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dabcacf7d5439a6479aa324dd9102b90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defoultTimeCucle: 10
-  timerText: {fileID: 818047326}
-  plusInfoPanel: {fileID: 803248536}
-  plusInfoPanelText: {fileID: 620180711}
-  plusInfoPanelTimer: 3
-  audioSource: {fileID: 839358905}
-  audioClip: {fileID: 8300000, guid: e072c892088b85f48b79d79f72452946, type: 3}
 --- !u!1 &608351292
 GameObject:
   m_ObjectHideFlags: 0
@@ -6048,7 +6028,6 @@ GameObject:
   - component: {fileID: 1074697126}
   - component: {fileID: 1074697128}
   - component: {fileID: 1074697127}
-  - component: {fileID: 1074697129}
   m_Layer: 5
   m_Name: "Harvest\u0421yclePanel"
   m_TagString: Untagged
@@ -6118,25 +6097,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074697125}
   m_CullTransparentMesh: 1
---- !u!114 &1074697129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1074697125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dabcacf7d5439a6479aa324dd9102b90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defoultTimeCucle: 5
-  timerText: {fileID: 574598100}
-  plusInfoPanel: {fileID: 1687292683}
-  plusInfoPanelText: {fileID: 80439740}
-  plusInfoPanelTimer: 3
-  audioSource: {fileID: 839358905}
-  audioClip: {fileID: 8300000, guid: b12aacde52e55d743a5c97001bb9aec5, type: 3}
 --- !u!1 &1113383680
 GameObject:
   m_ObjectHideFlags: 0
@@ -6146,8 +6106,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1113383681}
+  - component: {fileID: 1113383682}
   m_Layer: 5
-  m_Name: MainGameScript
+  m_Name: GameManagerScript
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6172,6 +6133,55 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1113383682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113383680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67bc4884b2ae85f45bf30ed502dbdc78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wheatTextResursePanel: {fileID: 211102775}
+  _peasuntsTextResursePanel: {fileID: 709977295}
+  _wariorsTextResursePanel: {fileID: 203138941}
+  _pauseButtonResursePanel: {fileID: 0}
+  _menuButtonResursePanel: {fileID: 0}
+  _onOfMusicResursePanel: {fileID: 0}
+  _timerHarvestCuclePanel: 15
+  _timerTextHarvestCuclePanel: {fileID: 574598100}
+  _plusInfoPanelHarvestCuclePanel: {fileID: 1687292683}
+  _plusInfoPanelTextHarvestCuclePanel: {fileID: 80439740}
+  _plusInfoPanelTimerHarvestCuclePanel: 3
+  _audioSourseHarvestPanel: {fileID: 839358905}
+  _audioClipHarvestPanel: {fileID: 8300000, guid: 5f046c22679133f4e88785cc4961ddaa, type: 3}
+  _timerFoodConsumptionPanel: 9
+  _timerTextFoodConsumptionPanel: {fileID: 818047326}
+  _plusInfoPanelFoodConsumptionPanel: {fileID: 803248536}
+  _plusInfoPanelTextFoodConsumptionPanel: {fileID: 620180711}
+  _plusInfoPanelTimerFoodConsumptionPanel: 3
+  _audioSourseFoodConsumptionPanel: {fileID: 839358905}
+  _audioClipFoodConsumptionPanel: {fileID: 8300000, guid: a33c78e6f44d2c54d9912ae0219f3c47, type: 3}
+  _timerRaidPanel: 10
+  _timerTextRaidPanel: {fileID: 1549207329}
+  _countWariorsRaid: 3
+  _wariorsPlusInRaid: 2
+  _countWariorsRaidText: {fileID: 246464073}
+  _plusInfoPanelRaidPanel: {fileID: 1342829699}
+  _plusInfoPanelTextRaidPanel: {fileID: 1466997262}
+  _plusInfoPanelTimerRaidPanel: 5
+  _audioSourseRaidPanel: {fileID: 839358905}
+  _audioClipRaidPanel: {fileID: 8300000, guid: 56bef4f03a2c13a45a134d2ad3f251c5, type: 3}
+  _hirePeasantButton: {fileID: 973967065}
+  _defaultTimeHiringPeasants: 0
+  _hirewariorButton: {fileID: 1630570108}
+  _defaultTimeHiringWariors: 0
+  _defoultCountWheat: 20
+  _defoultCountPeasunt: 2
+  _defoultCountWariors: 3
 --- !u!1 &1137906886
 GameObject:
   m_ObjectHideFlags: 0
@@ -7281,7 +7291,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1342829700
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8448,7 +8458,7 @@ GameObject:
   - component: {fileID: 1555379431}
   - component: {fileID: 1555379430}
   m_Layer: 5
-  m_Name: "FonImageRaid\u0421yclePanel (1)"
+  m_Name: "FonImageRaid\u0421yclePanel"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9442,9 +9452,8 @@ GameObject:
   - component: {fileID: 1756023516}
   - component: {fileID: 1756023518}
   - component: {fileID: 1756023517}
-  - component: {fileID: 1756023519}
   m_Layer: 5
-  m_Name: CycleRaidPanel
+  m_Name: RaidCyclePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9514,25 +9523,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756023515}
   m_CullTransparentMesh: 1
---- !u!114 &1756023519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1756023515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dabcacf7d5439a6479aa324dd9102b90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defoultTimeCucle: 8
-  timerText: {fileID: 1549207329}
-  plusInfoPanel: {fileID: 1342829699}
-  plusInfoPanelText: {fileID: 0}
-  plusInfoPanelTimer: 5
-  audioSource: {fileID: 839358905}
-  audioClip: {fileID: 8300000, guid: eacf825db16b4d64bbd452a571d8d368, type: 3}
 --- !u!1 &1763885497
 GameObject:
   m_ObjectHideFlags: 0
