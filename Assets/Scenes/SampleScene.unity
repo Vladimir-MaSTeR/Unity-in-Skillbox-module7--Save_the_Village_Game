@@ -5809,7 +5809,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 973967066}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1113383682}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnClickPeasantButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &973967066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6176,9 +6188,13 @@ MonoBehaviour:
   _audioSourseRaidPanel: {fileID: 839358905}
   _audioClipRaidPanel: {fileID: 8300000, guid: 56bef4f03a2c13a45a134d2ad3f251c5, type: 3}
   _hirePeasantButton: {fileID: 973967065}
-  _defaultTimeHiringPeasants: 0
+  _defaultTimeHiringPeasants: 4
+  _audioSoursePeasantButton: {fileID: 839358905}
+  _audioClipPeasantButton: {fileID: 8300000, guid: 29e14dd29a0382c4f9eddf584052a907, type: 3}
   _hirewariorButton: {fileID: 1630570108}
-  _defaultTimeHiringWariors: 0
+  _defaultTimeHiringWariors: 8
+  _audioSoursewariorButton: {fileID: 839358905}
+  _audioClipwariorButton: {fileID: 8300000, guid: 29e14dd29a0382c4f9eddf584052a907, type: 3}
   _defoultCountWheat: 20
   _defoultCountPeasunt: 2
   _defoultCountWariors: 3
@@ -8761,7 +8777,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1630570109}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1113383682}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnClickWariorButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1630570109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8783,10 +8811,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: ef24ccada4625064bb15ba916308918f, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0

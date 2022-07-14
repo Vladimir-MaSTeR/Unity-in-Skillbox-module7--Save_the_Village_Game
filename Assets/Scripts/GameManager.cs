@@ -48,14 +48,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _plusInfoPanelTimerRaidPanel; // Переменная в сек которая говорит сколько показывать панель с доп информацие(через сколько секунд отключить панель)
 
     [SerializeField] private AudioSource _audioSourseRaidPanel;  // Аудио сурс для панели набегов
-    [SerializeField] private AudioClip _audioClipRaidPanel;  // Аудио клип для панели набегов
+    [SerializeField] private AudioClip _audioClipRaidPanel;      // Аудио клип для панели набегов
 
     //Кнопки для игры
-    [SerializeField] private Button _hirePeasantButton;  // кнопка для найма крестьян
-    [SerializeField] private float _defaultTimeHiringPeasants;  // время для найма крестьян
+    [SerializeField] private Button _hirePeasantButton;              // кнопка для найма крестьян
+    [SerializeField] private float _defaultTimeHiringPeasants;       // время для найма крестьян
+    [SerializeField] private AudioSource _audioSoursePeasantButton;  // Аудио сурс для кнопки создания крестьян
+    [SerializeField] private AudioClip _audioClipPeasantButton;      // Аудио клип для кнопки создания крестьян
 
-    [SerializeField] private Button _hirewariorButton;   // Кнопка для найма войнов
+    [SerializeField] private Button _hirewariorButton;         // Кнопка для найма войнов
     [SerializeField] private float _defaultTimeHiringWariors;  // время для найма войнов
+    [SerializeField] private AudioSource _audioSoursewariorButton;  // Аудио сурс для кнопки создания войнов
+    [SerializeField] private AudioClip _audioClipwariorButton;      // Аудио клип для кнопки создания войнов
 
 
     //Настройки дефолтных значений игры
@@ -86,54 +90,13 @@ public class GameManager : MonoBehaviour
     // переменные для работы с кнопками найма
     private Image _imageHirePeasantButton;
     private float _countTimeHiringPeasants;
+    private bool _isClickPeasantButton;
 
-    private Image _imageHirewariorButton;
+    private Image _imageHireWariorButton;
     private float _countTimeHiringWariors;
+    private bool _isClickWariorButton;
+
     //-------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-    private void timerImagePeasanButton()
-    {
-        if (_wheatCount > 0 && _imageHirePeasantButton.fillAmount == 1)
-        {
-            _hirePeasantButton.interactable = true;
-            _countTimeHiringPeasants = _defaultTimeHiringPeasants;
-
-            _hirePeasantButton.onClick.AddListener(actionOnclickPeasanButton);
-
-        } else
-        {
-            _hirePeasantButton.interactable = false;
-        }
-    }
-
-    private void actionOnclickPeasanButton()
-    {
-        _hirePeasantButton.interactable = false;
-
-        if (_countTimeHiringPeasants > 0)
-        {
-            _countTimeHiringPeasants -= Time.deltaTime;
-            _imageHirePeasantButton.fillAmount = 0;
-            _imageHirePeasantButton.fillAmount += (_countTimeHiringPeasants / _defaultTimeHiringPeasants);
-        } else
-        {
-            _hirePeasantButton.interactable = true;
-            _imageHirePeasantButton.fillAmount = 1;
-        }
-    }
-
-    //метод получения компанента картинки у кнопок
-    private void fromButtonGetCompanentInImage()
-    {
-        _imageHirePeasantButton = _hirePeasantButton.GetComponent<Image>();
-        _imageHirewariorButton = _hirewariorButton.GetComponent<Image>();
-
-        _countTimeHiringPeasants = _defaultTimeHiringPeasants;
-        _countTimeHiringWariors = _defaultTimeHiringWariors;
-    }
-
-
 
     void Start()
     {
@@ -141,7 +104,7 @@ public class GameManager : MonoBehaviour
         purposeDefaultCountinRaidPanel();
         purposeDefaultCountInFoodConsumptionPanel();
         purposeDefaultCountInHarvestPanel();
-        fromButtonGetCompanentInImage();
+        FromButtonGetCompanentInImage();
 
 
     }
@@ -151,7 +114,8 @@ public class GameManager : MonoBehaviour
         jobRaidPanel();
         jobFoodConsumptionPanel();
         jobHarvestPanel();
-        timerImagePeasanButton();
+        TimerImagePeasanButton();
+        TimerImageWariorButton();
     }
 
 
@@ -311,8 +275,128 @@ public class GameManager : MonoBehaviour
         _plusInfoPanelRaidPanel.SetActive(false);
     }
 
-// общие методы---------------------------------------------------------------------
-    
+    // работа с кнопками покупки--------------------------------------------------------
+
+    public void OnClickPeasantButton()
+    {
+        if (_hirePeasantButton.interactable == true)
+        {
+            _isClickPeasantButton = true;
+
+            _wheatCount -= 1;
+            _wheatTextResursePanel.text = _wheatCount.ToString();
+        }
+
+    }
+
+    private void TimerImagePeasanButton()
+    {
+        if (_wheatCount > 0 && _imageHirePeasantButton.fillAmount == 1)
+        {
+            _hirePeasantButton.interactable = true;
+
+        }
+        else
+        {
+            _hirePeasantButton.interactable = false;
+
+        }
+
+        if (_isClickPeasantButton && _wheatCount > 0)
+        {
+            _hirePeasantButton.interactable = false;
+
+            _imageHirePeasantButton.fillAmount = 0;
+            _countTimeHiringPeasants += Time.deltaTime;
+            _imageHirePeasantButton.fillAmount += _countTimeHiringPeasants / _defaultTimeHiringPeasants;
+
+            if (_countTimeHiringPeasants >= _defaultTimeHiringPeasants)
+            {
+
+                _peasuntCount += 1;
+                _audioSoursePeasantButton.PlayOneShot(_audioClipPeasantButton);
+                _peasuntsTextResursePanel.text = _peasuntCount.ToString();
+
+                _isClickPeasantButton = false;
+                _countTimeHiringPeasants = 0;
+            }
+
+        }
+        else
+        {
+            _hirePeasantButton.interactable = true;
+            _imageHirePeasantButton.fillAmount = 1;
+
+        }
+    }
+
+    public void OnClickWariorButton()
+    {
+        if (_hirewariorButton.interactable == true)
+        {
+        _isClickWariorButton = true;
+
+        _wheatCount -= 2;
+        _wheatTextResursePanel.text = _wheatCount.ToString();
+        }
+
+    }
+
+    private void TimerImageWariorButton()
+    {
+        if (_wheatCount > 0 && _imageHireWariorButton.fillAmount == 1)
+        {
+            _hirewariorButton.interactable = true;
+
+        }
+        else
+        {
+            _hirewariorButton.interactable = false;
+
+        }
+
+        if (_isClickWariorButton && _wheatCount > 0)
+        {
+            _hirewariorButton.interactable = false;
+
+            _imageHireWariorButton.fillAmount = 0;
+            _countTimeHiringWariors += Time.deltaTime;
+            _imageHireWariorButton.fillAmount += _countTimeHiringWariors / _defaultTimeHiringWariors;
+
+            if (_countTimeHiringWariors >= _defaultTimeHiringWariors)
+            {
+
+                _wariorsCount += 1;
+                _audioSoursewariorButton.PlayOneShot(_audioClipwariorButton);
+                _wariorsTextResursePanel.text = _wariorsCount.ToString();
+
+                _isClickWariorButton = false;
+                _countTimeHiringWariors = 0;
+            }
+
+        }
+        else
+        {
+            _hirewariorButton.interactable = true;
+            _imageHireWariorButton.fillAmount = 1;
+
+        }
+    }
+
+    private void FromButtonGetCompanentInImage()
+    {
+        _imageHirePeasantButton = _hirePeasantButton.GetComponent<Image>();
+        _countTimeHiringPeasants = 0;
+        _isClickPeasantButton = false;
+
+        _imageHireWariorButton = _hirewariorButton.GetComponent<Image>();
+        _countTimeHiringWariors = 0;
+        _isClickWariorButton = false;
+    }
+
+
+    // общие методы---------------------------------------------------------------------
+
     // общий метод для вывода времени в текствые поля всех панелей
     private void UpdateTimerText(float time, Text timerText)
     {
