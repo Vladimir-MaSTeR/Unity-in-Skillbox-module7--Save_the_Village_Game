@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _timerRaidPanel;              // Время таймера обозначающее через сколько след. набег в сек 
     [SerializeField] private Text _timerTextRaidPanel;           // текстовое поле в котором отображается время до след набега
     [SerializeField] private float _countWariorsRaid;            // счетчик который показывает кол-во врагов в волне
+    [SerializeField] private float _countWariorsNullRaid;        // счетчик который показывает кол-во нулевых волн врагов в начале игры
     [SerializeField] private float _wariorsPlusInRaid;           // переменная когторая говорит на сколько увеличивать кол-во врагов в след. волне.
     [SerializeField] private Text _countWariorsRaidText;         // текстовое поле для отображения счетчика кол-ва врагов в волне
 
@@ -61,11 +62,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource _audioSoursewariorButton;  // Аудио сурс для кнопки создания войнов
     [SerializeField] private AudioClip _audioClipwariorButton;      // Аудио клип для кнопки создания войнов
 
+    //Канвасы
+    [SerializeField] private GameObject _startMenuCanvs;      // Аудио клип для кнопки создания войнов
+    [SerializeField] private GameObject _gameCanfas;      // Аудио клип для кнопки создания войнов
+
 
     //Настройки дефолтных значений игры
     [SerializeField] private float _defoultCountWheat;   // начальное кол-во пшеницы
     [SerializeField] private float _defoultCountPeasunt; // начальное кол-во крестьян
     [SerializeField] private float _defoultCountWariors; // начальное кол-во войнов
+
+    //Настройки для условия поражения.
+    [SerializeField] private GameObject _finishPanel;
+    //[SerializeField] private GameObject _canfasMenuTrue;
+    [SerializeField] private Text _gameOverOrFinishGameText;
+    [SerializeField] private Text _RadeWaveFinalText;
+    [SerializeField] private Text _deadVariorsText;
 
 
     //Переменные для подсчетов внутри игры
@@ -75,8 +87,10 @@ public class GameManager : MonoBehaviour
 
     //переменные для панели цикла набегов врагов
     private float _curentTimerRaid;                         // переменная для подсчета времени таймера набегов
+    private float _countWariorsRaidNull;                    // переменная для подсчета нулевых волн врагов в начале игры
     private float _countWariorsRaidWave;                    // переменная для счетчика кол-во врагов в волне
     private float _countRaidWave;                           // переменная для подсчета кол-ва волн
+    private float _deadVariors;                             // переменная для подсчета кол-ва убитых врагов
     private float _curentTimeOfPlusInfoPanelTimerRaidPanel; // переменная для подсчета времени для показа панели с дополнительной информации об атаке
 
     // переменные для панели цикла потребления еды
@@ -111,11 +125,66 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        jobRaidPanel();
-        jobFoodConsumptionPanel();
-        jobHarvestPanel();
-        TimerImagePeasanButton();
-        TimerImageWariorButton();
+        if (_startMenuCanvs.active == false)
+        {
+            jobRaidPanel();
+            jobFoodConsumptionPanel();
+            jobHarvestPanel();
+            TimerImagePeasanButton();
+            TimerImageWariorButton();
+            gameOver();
+        }
+    }
+
+
+// Условия победы
+    
+
+// Условия поражения
+    private void gameOver()
+    {
+        if (_wariorsCount < 0 || _wheatCount < 0) 
+        {
+            Time.timeScale = 0;
+            _finishPanel.SetActive(true);
+            _gameOverOrFinishGameText.text = "Поражение";
+            _RadeWaveFinalText.text = _countRaidWave.ToString();
+            _deadVariorsText.text = _deadVariors.ToString();
+        }
+    }
+
+// перезапуск игры
+    public void RestartGame()
+    {
+
+        purposeDefoultCountInTextResursePanel();
+        purposeDefaultCountinRaidPanel();
+        purposeDefaultCountInFoodConsumptionPanel();
+        purposeDefaultCountInHarvestPanel();
+        FromButtonGetCompanentInImage();
+
+        _finishPanel.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+// Завершить игру и вернуться в меню
+    public void EndGame()
+    {
+        _finishPanel.SetActive(false);
+        _gameCanfas.SetActive(false);
+        _startMenuCanvs.SetActive(true);
+        Time.timeScale = 1;
+    }
+
+// Начать игру
+    public void StartGame()
+    {
+        _finishPanel.SetActive(false);
+        _startMenuCanvs.SetActive(false);
+
+        RestartGame();
+
+        _gameCanfas.SetActive(true);
     }
 
 
@@ -253,9 +322,22 @@ public class GameManager : MonoBehaviour
             _curentTimerRaid = _timerRaidPanel;
             _curentTimeOfPlusInfoPanelTimerRaidPanel = _plusInfoPanelTimerRaidPanel;
 
-            _countWariorsRaidWave += _wariorsPlusInRaid;
-            _countWariorsRaidText.text = _countWariorsRaidWave.ToString();
 
+            _wariorsCount -= _countWariorsRaidWave;
+            _wariorsTextResursePanel.text = _wariorsCount.ToString();
+            if (_wariorsCount >= 0)
+            {
+                _countRaidWave++;
+                _deadVariors += _countWariorsRaidWave;
+            }
+
+            _countWariorsRaidNull--;
+
+            if (_countWariorsRaidNull < 0)
+            {
+                _countWariorsRaidWave += _wariorsPlusInRaid;
+                _countWariorsRaidText.text = _countWariorsRaidWave.ToString();
+            }
         }
     }
 
@@ -273,6 +355,10 @@ public class GameManager : MonoBehaviour
 
         _curentTimeOfPlusInfoPanelTimerRaidPanel = _plusInfoPanelTimerRaidPanel;
         _plusInfoPanelRaidPanel.SetActive(false);
+
+        _countWariorsRaidNull = _countWariorsNullRaid;
+        _countRaidWave = 0;
+        _deadVariors = 0;
     }
 
     // работа с кнопками покупки--------------------------------------------------------
