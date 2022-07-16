@@ -10,10 +10,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text _peasuntsTextResursePanel; // “екстовое поле дл€ отображени€ кол-ва кресть€н
     [SerializeField] private Text _wariorsTextResursePanel;  // “екстовое поле дл€ отображени€ кол-ва войнов
 
-    [SerializeField] private Button _pauseButtonResursePanel;  // кнопка паузы
-    [SerializeField] private Button _menuButtonResursePanel;   // кнопка меню (при нажатии должна включатьс€ пауза)
-    [SerializeField] private Button _onOfMusicResursePanel;    // кнопка вкл\выкл фоновой музыки
-
     // ѕанель цикла сбора урожа€
     [SerializeField] private float _timerHarvestCuclePanel;             // ¬рем€ таймера сбора урожа€ в сек. 
     [SerializeField] private Text  _timerTextHarvestCuclePanel;         // текстовое поле в котором отображаетс€ врем€ сбора урожа€
@@ -71,10 +67,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _defoultCountWheat;   // начальное кол-во пшеницы
     [SerializeField] private float _defoultCountPeasunt; // начальное кол-во кресть€н
     [SerializeField] private float _defoultCountWariors; // начальное кол-во войнов
+    [SerializeField] private float _defoultVictoryWheat; // начальное кол-во войнов
 
     //Ќастройки дл€ услови€ поражени€.
     [SerializeField] private GameObject _finishPanel;
-    //[SerializeField] private GameObject _canfasMenuTrue;
     [SerializeField] private Text _gameOverOrFinishGameText;
     [SerializeField] private Text _RadeWaveFinalText;
     [SerializeField] private Text _deadVariorsText;
@@ -114,10 +110,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        purposeDefoultCountInTextResursePanel();
-        purposeDefaultCountinRaidPanel();
-        purposeDefaultCountInFoodConsumptionPanel();
-        purposeDefaultCountInHarvestPanel();
+        PurposeDefoultCountInTextResursePanel();
+        PurposeDefaultCountinRaidPanel();
+        PurposeDefaultCountInFoodConsumptionPanel();
+        PurposeDefaultCountInHarvestPanel();
         FromButtonGetCompanentInImage();
 
 
@@ -127,21 +123,32 @@ public class GameManager : MonoBehaviour
     {
         if (_startMenuCanvs.active == false)
         {
-            jobRaidPanel();
-            jobFoodConsumptionPanel();
-            jobHarvestPanel();
+            JobRaidPanel();
+            JobFoodConsumptionPanel();
+            JobHarvestPanel();
             TimerImagePeasanButton();
             TimerImageWariorButton();
-            gameOver();
+            GameOver();
+            VictoryGame();
         }
     }
 
 
 // ”слови€ победы
-    
+    private void VictoryGame()
+    {
+        if(_wheatCount >= _defoultVictoryWheat)
+        {
+            Time.timeScale = 0;
+            _finishPanel.SetActive(true);
+            _gameOverOrFinishGameText.text = "ѕобеда";
+            _RadeWaveFinalText.text = _countRaidWave.ToString();
+            _deadVariorsText.text = _deadVariors.ToString();
+        }
+    }    
 
 // ”слови€ поражени€
-    private void gameOver()
+    private void GameOver()
     {
         if (_wariorsCount < 0 || _wheatCount < 0) 
         {
@@ -157,10 +164,10 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
 
-        purposeDefoultCountInTextResursePanel();
-        purposeDefaultCountinRaidPanel();
-        purposeDefaultCountInFoodConsumptionPanel();
-        purposeDefaultCountInHarvestPanel();
+        PurposeDefoultCountInTextResursePanel();
+        PurposeDefaultCountinRaidPanel();
+        PurposeDefaultCountInFoodConsumptionPanel();
+        PurposeDefaultCountInHarvestPanel();
         FromButtonGetCompanentInImage();
 
         _finishPanel.SetActive(false);
@@ -194,7 +201,7 @@ public class GameManager : MonoBehaviour
     //в пол€ дл€ отображени€ на панели ресурсов
     //и в переменный дл€ подсчыета в нутри игры. 
     // вызываем 1 раз в начале игры(но это не точно :) )
-    private void purposeDefoultCountInTextResursePanel()
+    private void PurposeDefoultCountInTextResursePanel()
     {
         _wheatTextResursePanel.text = _defoultCountWheat.ToString();
         _peasuntsTextResursePanel.text = _defoultCountPeasunt.ToString();
@@ -208,7 +215,7 @@ public class GameManager : MonoBehaviour
 // работа с панелью сбора урожа€--------------------------------------------------
 
     // метод отвечает за всю логику работы панели сбора урожа€ и обновл€ет пшеницу в панеле ресурсов при учете кол-ва кресть€н
-    private void jobHarvestPanel()
+    private void JobHarvestPanel()
     {
         if (_curentTimerHarvest > 0)
         {
@@ -242,7 +249,7 @@ public class GameManager : MonoBehaviour
     //дл€ панели цикла сбора урожа€
     //и в переменные дл€ подсчета внутри игры
     //вызываетс€ 1 раз при старте
-    private void purposeDefaultCountInHarvestPanel()
+    private void PurposeDefaultCountInHarvestPanel()
     {
         _curentTimerHarvest = _timerHarvestCuclePanel;
         _timerTextHarvestCuclePanel.text = _curentTimerHarvest.ToString();
@@ -255,7 +262,7 @@ public class GameManager : MonoBehaviour
 // работа с понелью потреблени€ еды-----------------------------------------------
 
     // метод отвечает за всю логику работы панели потреблени€ еды и обновл€ет еду в панеле ресурсов при поедании еды войнами
-    private void jobFoodConsumptionPanel()
+    private void JobFoodConsumptionPanel()
     {
         if (_curentTimerFoodConsumption > 0)
         {
@@ -288,7 +295,7 @@ public class GameManager : MonoBehaviour
     //дл€ панели цикла потреблени€ еды
     //и в переменные дл€ подсчета внутри игры
     //вызываетс€ 1 раз при старте
-    private void purposeDefaultCountInFoodConsumptionPanel()
+    private void PurposeDefaultCountInFoodConsumptionPanel()
     {
         _curentTimerFoodConsumption = _timerFoodConsumptionPanel;
         _timerTextFoodConsumptionPanel.text = _curentTimerFoodConsumption.ToString();
@@ -301,7 +308,7 @@ public class GameManager : MonoBehaviour
 // работа с панелью набегов--------------------------------------------------------
 
     // метод отвечает за всю логику работы панели набегов
-    private void jobRaidPanel()
+    private void JobRaidPanel()
     {
         if (_curentTimerRaid > 0)
         {
@@ -345,7 +352,7 @@ public class GameManager : MonoBehaviour
     //дл€ панели цикла набегов врагов
     //и в переменные дл€ подсчета внутри игры
     //вызываетс€ 1 раз при старте
-    private void purposeDefaultCountinRaidPanel()
+    private void PurposeDefaultCountinRaidPanel()
     {
         _curentTimerRaid = _timerRaidPanel;
         _timerTextRaidPanel.text = _curentTimerRaid.ToString();
@@ -361,7 +368,7 @@ public class GameManager : MonoBehaviour
         _deadVariors = 0;
     }
 
-    // работа с кнопками покупки--------------------------------------------------------
+// работа с кнопками покупки--------------------------------------------------------
 
     public void OnClickPeasantButton()
     {
@@ -481,7 +488,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    // общие методы---------------------------------------------------------------------
+// общие методы---------------------------------------------------------------------
 
     // общий метод дл€ вывода времени в текствые пол€ всех панелей
     private void UpdateTimerText(float time, Text timerText)
